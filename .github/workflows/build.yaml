@@ -11,3 +11,7 @@ jobs:
       with:
         repository: openjdk/valhalla
         ref: lw5
+    - name: Build
+      run: |
+        bash configure
+        make images
