@@ -12,7 +12,7 @@ jobs:
       with:
         repository: openjdk/valhalla
         ref: lw5
-    - name: Install bootstrap JDK
+    - name: Install Bootstrap JDK
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
@@ -24,3 +24,13 @@ jobs:
       run: |
         bash configure
         make images
+    - name: Create Package
+      run: |
+        tar -czvf jdk-valhalla.tar.gz build/linux-x86_64-server-release/images/jdk
+        sha256sum jdk-valhalla.tar.gz
+    - name: Upload Artifact
+      uses: pyTooling/Actions/releaser@v0.4.6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: latest-build
+        files: jdk-valhalla.tar.gz
