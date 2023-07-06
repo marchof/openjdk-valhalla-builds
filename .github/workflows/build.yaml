@@ -1,0 +1,13 @@
+name: OpenJDK Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: openjdk/valhalla
+        ref: lw5
