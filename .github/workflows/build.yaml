@@ -22,7 +22,7 @@ jobs:
         sudo apt-get install libasound2-dev libcups2-dev libx11-dev libxext-dev libxrender-dev libxrandr-dev libxtst-dev libxt-dev
     - name: Build
       run: |
-        bash configure
+        bash configure --with-native-debug-symbols=none
         make images
     - name: Create Package
       run: |
