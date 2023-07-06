@@ -26,7 +26,7 @@ jobs:
         make images
     - name: Create Package
       run: |
-        tar -czvf jdk-valhalla.tar.gz build/linux-x86_64-server-release/images/jdk
+        tar -czvf jdk-valhalla.tar.gz -C build/linux-x86_64-server-release/images jdk
         sha256sum jdk-valhalla.tar.gz
     - name: Upload Artifact
       uses: pyTooling/Actions/releaser@v0.4.6
