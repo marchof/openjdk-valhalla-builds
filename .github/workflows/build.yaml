@@ -7,10 +7,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout OpenJDK
+      uses: actions/checkout@v3
       with:
         repository: openjdk/valhalla
         ref: lw5
+    - name: Install bootstrap JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '20'
     - name: Build
       run: |
         bash configure
