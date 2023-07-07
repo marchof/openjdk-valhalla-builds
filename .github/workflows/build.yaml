@@ -15,6 +15,10 @@ jobs:
       with:
         repository: openjdk/valhalla
         ref: ${{ env.branch }}
+    - name: Get Commit Id
+      id: commitid
+      run: |
+        echo "::set-output name=sha::$(git rev-parse --short HEAD)"
     - name: Install Bootstrap JDK
       uses: actions/setup-java@v3
       with:
@@ -25,7 +29,7 @@ jobs:
         sudo apt-get install libasound2-dev libcups2-dev libx11-dev libxext-dev libxrender-dev libxrandr-dev libxtst-dev libxt-dev
     - name: Build
       run: |
-        bash configure --with-native-debug-symbols=none --with-version-opt=${{ env.branch }}
+        bash configure --with-native-debug-symbols=none --with-version-opt=${{ env.branch }}-${{ steps.commitid.outputs.sha }}
         make images
     - name: Smoke Test
       run: |
