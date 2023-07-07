@@ -18,7 +18,7 @@ jobs:
     - name: Get Commit Id
       id: commitid
       run: |
-        echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+        echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     - name: Install Bootstrap JDK
       uses: actions/setup-java@v3
       with:
