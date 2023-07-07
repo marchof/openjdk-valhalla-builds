@@ -29,11 +29,11 @@ jobs:
         sudo apt-get install libasound2-dev libcups2-dev libx11-dev libxext-dev libxrender-dev libxrandr-dev libxtst-dev libxt-dev
     - name: Build
       run: |
-        bash configure --with-native-debug-symbols=none --with-version-opt=${{ env.branch }}-${{ steps.commitid.outputs.sha }}
+        bash configure --with-native-debug-symbols=none --with-version-opt=valhalla-${{ env.branch }}-${{ steps.commitid.outputs.sha }} --with-version-build=$${{ github.run_number }} --with-vendor-name=javaalmanac.io
         make images
     - name: Smoke Test
       run: |
-        build/linux-x86_64-server-release/image/jdk/bin/java --version
+        build/linux-x86_64-server-release/images/jdk/bin/java --version
     - name: Create Package
       run: |
         tar -czvf jdk-valhalla.tar.gz -C build/linux-x86_64-server-release/images jdk
