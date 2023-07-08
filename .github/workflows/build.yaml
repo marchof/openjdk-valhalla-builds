@@ -8,18 +8,22 @@ on:
   schedule:
     - cron: '0 4 * * *'
 
-env:
-  branch: lw5
-
 jobs:
   build:
     runs-on: ubuntu-20.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - lw5
+
     steps:
     - name: Checkout OpenJDK
       uses: actions/checkout@v3
       with:
         repository: openjdk/valhalla
-        ref: ${{ env.branch }}
+        ref: ${{ matrix.branch }}
     - name: Get Commit Id
       id: commitid
       run: |
@@ -34,18 +38,18 @@ jobs:
         sudo apt-get install libasound2-dev libcups2-dev libx11-dev libxext-dev libxrender-dev libxrandr-dev libxtst-dev libxt-dev
     - name: Build
       run: |
-        bash configure --with-native-debug-symbols=none --with-version-opt=valhalla-${{ env.branch }}-${{ steps.commitid.outputs.sha }} --with-version-build=$${{ github.run_number }} --with-vendor-name=javaalmanac.io
+        bash configure --with-native-debug-symbols=none --with-version-opt=valhalla-${{ matrix.branch }}-${{ steps.commitid.outputs.sha }} --with-version-build=$${{ github.run_number }} --with-vendor-name=javaalmanac.io
         make images
     - name: Smoke Test
       run: |
         build/linux-x86_64-server-release/images/jdk/bin/java --version
     - name: Create Package
       run: |
-        tar -czvf jdk-valhalla.tar.gz -C build/linux-x86_64-server-release/images jdk
-        sha256sum jdk-valhalla.tar.gz
+        tar -czvf jdk-valhalla-${{ matrix.branch }}.tar.gz -C build/linux-x86_64-server-release/images jdk
+        sha256sum jdk-valhalla-${{ matrix.branch }}.tar.gz
     - name: Upload Artifact
       uses: pyTooling/Actions/releaser@v0.4.6
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: latest-build
-        files: jdk-valhalla.tar.gz
+        files: jdk-valhalla-${{ matrix.branch }}.tar.gz
