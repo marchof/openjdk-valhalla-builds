@@ -38,7 +38,7 @@ jobs:
         sudo apt-get install libasound2-dev libcups2-dev libx11-dev libxext-dev libxrender-dev libxrandr-dev libxtst-dev libxt-dev
     - name: Build
       run: |
-        bash configure --with-native-debug-symbols=none --with-version-opt=valhalla-${{ matrix.branch }}-${{ steps.commitid.outputs.sha }} --with-version-build=$${{ github.run_number }} --with-vendor-name=javaalmanac.io
+        bash configure --with-native-debug-symbols=none --with-version-opt=valhalla-${{ matrix.branch }}-${{ steps.commitid.outputs.sha }} --with-version-build=${{ github.run_number }} --with-vendor-name=javaalmanac.io
         make images
     - name: Smoke Test
       run: |
