@@ -35,6 +35,7 @@ jobs:
         java-version: '20'
     - name: Install Requirements
       run: |
+        sudo apt-get update
         sudo apt-get install libasound2-dev libcups2-dev libx11-dev libxext-dev libxrender-dev libxrandr-dev libxtst-dev libxt-dev
     - name: Build
       run: |
