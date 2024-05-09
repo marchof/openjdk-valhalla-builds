@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Checkout OpenJDK
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: openjdk/valhalla
         ref: ${{ matrix.branch }}
@@ -29,10 +29,10 @@ jobs:
       run: |
         echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     - name: Install Bootstrap JDK
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        distribution: 'temurin'
-        java-version: '20'
+        distribution: temurin
+        java-version: 22
     - name: Install Requirements
       run: |
         sudo apt-get update
