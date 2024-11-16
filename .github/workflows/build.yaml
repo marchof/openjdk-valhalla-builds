@@ -32,7 +32,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: temurin
-        java-version: 22
+        java-version: 23
     - name: Install Requirements
       run: |
         sudo apt-get update
